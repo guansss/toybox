@@ -46,3 +46,8 @@ class DisplayPanel(wx.Frame):
         self.text.Thaw()
 
         self.GetSizer().Fit(self)
+
+    # sometimes the panel fails to be closed by another thread, so we make this method thread-safe
+    @thread_safe
+    def Close(self, force=False):
+        super().Close(force)
