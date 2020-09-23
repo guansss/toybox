@@ -21,8 +21,8 @@ from utils import mouse, keyboard
 # ========================================= Configs ===============================================
 
 # Make sure that you've selected the FRAME_FIRST in MMD before running this script!
-FRAME_FIRST = 0
-FRAME_FINAL = 1
+FRAME_FIRST = 2248
+FRAME_FINAL = 2225
 
 OP_BUTTON = (337, 1357)
 
