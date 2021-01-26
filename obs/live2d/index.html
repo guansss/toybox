@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Live2D</title>
+
+  <style>
+  * {
+      margin: 0;
+      padding: 0;
+  }
+
+  #canvas {
+      position: absolute;
+  }
+
+  #pos {
+      position: absolute;
+      top: 0;
+  }
+  </style>
+
+  <script src="http://cdn.jsdelivr.net/gh/dylanNew/live2d/webgl/Live2D/lib/live2d.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pixi.js@5.2.1/dist/pixi.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pixi-live2d-display@0.2.2/lib/browser.js"></script>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<div id="pos"></div>
+<script>
+const app = new PIXI.Application({
+    view: document.getElementById('canvas'),
+    autoStart: true,
+    resizeTo: window,
+    transparent: true,
+});
+
+async function main() {
+    const data = await fetch('/setup').then(res => res.json());
+    const modelURL = data.model;
+    const wsPort = data.wsPort;
+
+    let model;
+
+    const posDiv = document.getElementById('pos');
+
+    connect(wsPort, data => {
+        console.log(data);
+
+        if (data === 'reload') {
+            location.reload();
+            return;
+        }
+
+        if (model) {
+            const [x, y] = data.split(',');
+
+            const focusX = (x / 2560) * innerWidth;
+            const focusY = (y / 1440) * innerHeight;
+
+            model.focus(focusX, focusY);
+
+            // posDiv.innerText = x + ',' + y + '--------------------' + focusX + ',' + focusY;
+        }
+    });
+
+    model = await PIXI.live2d.Live2DModel.fromModelSettingsFile(modelURL, { autoInteract: false });
+
+    app.stage.addChild(model);
+
+    model.interactive = true;
+
+    model.anchor.set(0.5, 0.5);
+    model.position.set(180, 1300);
+
+    const size = Math.min(innerWidth, innerHeight) * 0.8;
+    model.width = size * 0.9;
+    model.height = size;
+
+    // handle hitting
+    model.on('hit', hitAreas => {
+        if (hitAreas.includes('body')) {
+            model.motion('tapBody');
+        }
+
+        if (hitAreas.includes('head')) {
+            model.internal.motionManager.expressionManager.setRandomExpression();
+        }
+    });
+
+    // handle dragging
+    model.on('pointerdown', () => model.dragging = true);
+    model.on('pointerup', () => model.dragging = false);
+    model.on('pointermove', e => {
+        model.dragging && model.position.copyFrom(e.data.global);
+    });
+}
+
+function connect(port, callback) {
+    const ws = new WebSocket('ws://localhost:' + port);
+
+    ws.addEventListener('message', e => callback(e.data + ''));
+    ws.addEventListener('error', () => ws.close());
+    ws.addEventListener('close', () => setTimeout(() => connect(port, callback), 1000));
+}
+
+main();
+</script>
+</body>
+</html>
