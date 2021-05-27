@@ -7,6 +7,11 @@ def pos():
     return pyautogui.position()
 
 
-def click(x, y, delay=0.1):
-    time.sleep(delay)
+def click(x: int, y: int):
     pyautogui.click(x, y)
+
+
+def long_click(x: int, y: int, duration: float):
+    pyautogui.mouseDown(x, y)
+    time.sleep(duration)
+    pyautogui.mouseUp()

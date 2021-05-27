@@ -80,22 +80,27 @@ def run(panel):
 
 
 def register_frame():
-    mouse.click(*OP_BUTTON)
+    mouse_click(*OP_BUTTON)
 
     # wait until the dialog has opened
-    mouse.click(*TARGET_BONE_DROPDOWN, 0.3)
-    mouse.click(*TARGET_BONE)
+    mouse_click(*TARGET_BONE_DROPDOWN, 0.3)
+    mouse_click(*TARGET_BONE)
 
-    mouse.click(*OP_MODEL_DROPDOWN)
-    mouse.click(*OP_MODEL)
+    mouse_click(*OP_MODEL_DROPDOWN)
+    mouse_click(*OP_MODEL)
 
     if OP_BONE:
-        mouse.click(*OP_BONE)
+        mouse_click(*OP_BONE)
 
-    mouse.click(*REGISTER_OP_BUTTON)
-    mouse.click(*REGISTER_FRAME_BUTTON)
+    mouse_click(*REGISTER_OP_BUTTON)
+    mouse_click(*REGISTER_FRAME_BUTTON)
 
-    mouse.click(*CLOSE_BUTTON)
+    mouse_click(*CLOSE_BUTTON)
+
+
+def mouse_click(x: int, y: int, delay: float = 0.1):
+    time.sleep(delay)
+    mouse.click(x, y)
 
 
 if __name__ == '__main__':
