@@ -21,13 +21,13 @@ from utils import mouse, keyboard
 # ========================================= Configs ===============================================
 
 # Make sure that you've selected the FRAME_FIRST in MMD before running this script!
-FRAME_FIRST = 2248
-FRAME_FINAL = 2225
+FRAME_FIRST = 3355
+FRAME_FINAL = 3323
 
 OP_BUTTON = (337, 1357)
 
 TARGET_BONE_DROPDOWN = (1204, 635)
-TARGET_BONE = (1183, 661)
+TARGET_BONE = (1183, 926)
 
 OP_MODEL_DROPDOWN = (1209, 676)
 OP_MODEL = (1195, 694)
@@ -72,7 +72,7 @@ def run(panel):
         register_frame()
 
         # MMD does not respond to an instant press(), so we hold() instead
-        keyboard.hold(SHIFT_KEY)
+        keyboard.hold(SHIFT_KEY, 0.01, 0.3)
 
     panel.display('Finished')
     time.sleep(1)
@@ -82,11 +82,24 @@ def run(panel):
 def register_frame():
     mouse_click(*OP_BUTTON)
 
+    # bone 1
+
     # wait until the dialog has opened
+    mouse_click(*OP_MODEL_DROPDOWN, 0.3)
+    mouse_click(*OP_MODEL)
+
+    if OP_BONE:
+        mouse_click(*OP_BONE)
+
+    mouse_click(*REGISTER_OP_BUTTON)
+    mouse_click(*REGISTER_FRAME_BUTTON)
+
+    # bone 2
+
     mouse_click(*TARGET_BONE_DROPDOWN, 0.3)
     mouse_click(*TARGET_BONE)
 
-    mouse_click(*OP_MODEL_DROPDOWN)
+    mouse_click(*OP_MODEL_DROPDOWN, 0.3)
     mouse_click(*OP_MODEL)
 
     if OP_BONE:

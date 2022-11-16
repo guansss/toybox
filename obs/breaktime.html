@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Break Time</title>
+  <style>
+  * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+  }
+
+  body {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      overflow: hidden;
+      background: #FFF;
+  }
+
+  .header {
+      padding: 0 8px;
+      font-family: Consolas, monospace;
+  }
+
+  .headline {
+      font-size: 64px;
+      margin-bottom: 16px;
+  }
+
+  .info {
+      padding-left: 8px;
+      color: #888;
+      font-size: 16px;
+  }
+
+  .excuse {
+      flex-grow: 1;
+      margin-top: 24px;
+      padding: 16px 0;
+      background: #EEE;
+      color: #666;
+  }
+
+  .excuse .desc {
+      padding-left: 16px;
+  }
+
+  .excuse ul {
+      margin-top: 12px;
+      display: flex;
+      flex-direction: column;
+      list-style: none;
+  }
+
+  .excuse li {
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      line-height: 1.8;
+      transition: background-color .2s ease-out;
+  }
+
+  .excuse li:hover {
+      background: rgba(0, 0, 0, .1);
+  }
+
+  .excuse label {
+      margin-left: 6px;
+      flex-grow: 1;
+  }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="headline">time.break();</div>
+    <div class="info">time.passed = "<span id="passed">00:00</span>";</div>
+  </div>
+  <div class="excuse">
+    <div class="desc">请选择您的借口：</div>
+
+  <ul>
+    <li><input type="radio" id="e1" name="excuse"><label for="e1">订外卖</label></li>
+    <li><input type="radio" id="e2" name="excuse"><label for="e2">拿外卖</label></li>
+    <li><input type="radio" id="e3" name="excuse"><label for="e3">上厕所</label></li>
+    <li><input type="radio" id="e4" name="excuse"><label for="e4">自闭中</label></li>
+    <li><input type="radio" id="e5" name="excuse"><label for="e5">拯救世界</label></li>
+  </ul>
+  </div>
+<script>
+const passedElm = document.getElementById('passed');
+let startTime = 0;
+
+document.querySelectorAll('input[name=excuse]').forEach(input => input.addEventListener('change', e => {
+    startTime = Date.now();
+}));
+
+setInterval(() => {
+    if (startTime) {
+        const elapsed = new Date(Date.now() - startTime);
+        const hours = ('0' + elapsed.getUTCHours()).slice(-2);
+        const minutes = ('0' + elapsed.getUTCMinutes()).slice(-2);
+        const seconds = ('0' + elapsed.getUTCSeconds()).slice(-2);
+
+        passedElm.textContent = (+hours ? hours + ':' : '') + minutes + ':' + seconds;
+    }
+}, 500);
+</script>
+</body>
+</html>

@@ -3,7 +3,7 @@ import winsound
 
 from utils import mouse, screen
 
-CARD_POS = (1200, 840)
+CARD_POS = (1200, 650)
 CONFIRM_POS = (2160, 1340)
 CONFIRM_BUTTON_COLOR = (0, 112, 161)
 CONFIRM_BUTTON_COLOR_FOCUSED = (0, 117, 168)

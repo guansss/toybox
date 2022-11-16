@@ -27,6 +27,7 @@ maps = {
     'normal': Map(var='NORMAL', file_suffix=('NRM', 'NORM', 'normal')),
     'occ': Map(var='OCCLUSION', file_suffix=('OCC', 'ambientOcclusion')),
     'rough': Map(var='SMOOTHNESS', file_suffix=('ROUGH', 'roughness')),
+    'metallic': Map(var='METALNESS', file_suffix=('metallic',)),
 
     # this map does not work well in ray, omitted
     # 'disp': Map(var='PARALLAX', file_suffix=('DISP', 'height')),
